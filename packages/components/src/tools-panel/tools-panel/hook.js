@@ -50,6 +50,20 @@ export function useToolsPanel( props ) {
 		}
 	};
 
+	// Force a menu item to be checked.
+	// This is intended for use with default panel items. They are displayed
+	// separately to optional items and have different display states,
+	//.we need to update that when their value is customized.
+	const flagItemCustomization = ( label, group = 'default' ) => {
+		setMenuItems( {
+			...menuItems,
+			[ group ]: {
+				...menuItems[ group ],
+				[ label ]: true,
+			},
+		} );
+	};
+
 	// Manage and share display state of menu items representing child controls.
 	const [ menuItems, setMenuItems ] = useState( {} );
 
@@ -67,10 +81,11 @@ export function useToolsPanel( props ) {
 
 	// Setup menuItems state as panel items register themselves.
 	useEffect( () => {
-		const items = {};
+		const items = { default: {}, optional: {} };
 
 		panelItems.forEach( ( { hasValue, isShownByDefault, label } ) => {
-			items[ label ] = isShownByDefault || hasValue();
+			const group = isShownByDefault ? 'default' : 'optional';
+			items[ group ][ label ] = hasValue();
 		} );
 
 		setMenuItems( items );
@@ -79,9 +94,20 @@ export function useToolsPanel( props ) {
 	// Toggle the checked state of a menu item which is then used to determine
 	// display of the item within the panel.
 	const toggleItem = ( label ) => {
+		const currentItem = panelItems.find( ( item ) => item.label === label );
+
+		if ( ! currentItem ) {
+			return;
+		}
+
+		const menuGroup = currentItem.isShownByDefault ? 'default' : 'optional';
+
 		setMenuItems( {
 			...menuItems,
-			[ label ]: ! menuItems[ label ],
+			[ menuGroup ]: {
+				...menuItems[ menuGroup ],
+				[ label ]: ! menuItems[ menuGroup ][ label ],
+			},
 		} );
 	};
 
@@ -93,10 +119,11 @@ export function useToolsPanel( props ) {
 		}
 
 		// Turn off display of all non-default items.
-		const resetMenuItems = {};
+		const resetMenuItems = { default: {}, optional: {} };
 
 		panelItems.forEach( ( { label, isShownByDefault } ) => {
-			resetMenuItems[ label ] = !! isShownByDefault;
+			const group = isShownByDefault ? 'default' : 'optional';
+			resetMenuItems[ group ][ label ] = false;
 		} );
 
 		setMenuItems( resetMenuItems );
@@ -107,6 +134,8 @@ export function useToolsPanel( props ) {
 		menuItems,
 		registerPanelItem,
 		deregisterPanelItem,
+		flagItemCustomization,
+		hasMenuItems: panelItems.length,
 		isResetting: isResetting.current,
 	};
 
