@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
  */
 import { Text } from '../../text';
 import { Spacer } from '../../spacer';
-import InputControl from '../../input-control';
+import { InputWrapper } from './styles';
 import { space } from '../utils/space';
 
 interface HexInputProps {
@@ -35,7 +35,7 @@ export const HexInput = ( { color, onChange, enableAlpha }: HexInputProps ) => {
 		: colorized.toHexString();
 
 	return (
-		<InputControl
+		<InputWrapper
 			__unstableInputWidth="8em"
 			prefix={
 				<Spacer as={ Text } marginLeft={ space( 2 ) } color="blue">
