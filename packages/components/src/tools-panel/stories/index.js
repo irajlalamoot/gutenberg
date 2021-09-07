@@ -40,6 +40,7 @@ export const _default = () => {
 						hasValue={ () => !! width }
 						label="Width"
 						onDeselect={ () => setWidth( undefined ) }
+						isShownByDefault={ true }
 					>
 						<UnitControl
 							label="Width"
@@ -52,6 +53,7 @@ export const _default = () => {
 						hasValue={ () => !! height }
 						label="Height"
 						onDeselect={ () => setHeight( undefined ) }
+						isShownByDefault={ true }
 					>
 						<UnitControl
 							label="Height"
