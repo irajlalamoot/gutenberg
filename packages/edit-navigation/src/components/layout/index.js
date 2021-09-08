@@ -96,8 +96,6 @@ export default function Layout( { blockEditorSettings } ) {
 		isMenuSelected
 	);
 
-	const secondarySidebar = () => <InserterSidebar />;
-
 	return (
 		<ErrorBoundary>
 			<div
@@ -175,7 +173,7 @@ export default function Layout( { blockEditorSettings } ) {
 									<ComplementaryArea.Slot scope="core/edit-navigation" />
 								)
 							}
-							secondarySidebar={ secondarySidebar() }
+							secondarySidebar={ <InserterSidebar /> }
 						/>
 						{ isMenuSelected && (
 							<Sidebar
