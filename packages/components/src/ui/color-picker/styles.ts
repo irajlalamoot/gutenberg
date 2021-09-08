@@ -10,7 +10,7 @@ import NumberControl from '../../number-control';
 import InnerSelectControl from '../../select-control';
 import InnerRangeControl from '../../range-control';
 import { StyledField } from '../../base-control/styles/base-control-styles';
-import { ThumbWrapper } from '../../range-control/styles/range-control-styles'
+import { ThumbWrapper } from '../../range-control/styles/range-control-styles';
 import { space } from '../utils/space';
 import {
 	BackdropUI,
