@@ -71,11 +71,12 @@ export default function Layout( { blockEditorSettings } ) {
 		navigationPost
 	);
 
-	const { hasSidebarEnabled } = useSelect(
+	const { hasSidebarEnabled, isInserterOpened } = useSelect(
 		( select ) => ( {
 			hasSidebarEnabled: !! select(
 				interfaceStore
 			).getActiveComplementaryArea( 'core/edit-navigation' ),
+			isInserterOpened: select( editNavigationStore ).isInserterOpened(),
 		} ),
 		[]
 	);
@@ -95,6 +96,16 @@ export default function Layout( { blockEditorSettings } ) {
 		navigationPost &&
 		isMenuSelected
 	);
+
+	// Conditionally render at Layout level to ensure main content
+	// is visible on mobile.
+	const renderSecondarySidebar = () => {
+		if ( isInserterOpened ) {
+			return <InserterSidebar />;
+		}
+
+		return null;
+	};
 
 	return (
 		<ErrorBoundary>
@@ -173,7 +184,7 @@ export default function Layout( { blockEditorSettings } ) {
 									<ComplementaryArea.Slot scope="core/edit-navigation" />
 								)
 							}
-							secondarySidebar={ <InserterSidebar /> }
+							secondarySidebar={ renderSecondarySidebar() }
 						/>
 						{ isMenuSelected && (
 							<Sidebar
