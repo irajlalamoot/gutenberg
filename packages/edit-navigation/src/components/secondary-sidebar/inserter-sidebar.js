@@ -57,6 +57,7 @@ function InserterSidebar() {
 					rootClientId={ rootClientId }
 					clientId={ rootClientId }
 					showInserterHelpPanel={ SHOW_PREVIEWS }
+					showSearch={ false }
 				/>
 			</div>
 		</div>
